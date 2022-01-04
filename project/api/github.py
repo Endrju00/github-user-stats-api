@@ -1,5 +1,4 @@
 import requests
-from requests.api import head
 from time import sleep
 
 
