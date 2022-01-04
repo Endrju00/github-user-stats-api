@@ -31,3 +31,15 @@ def userRepositories(request, username):
         data.append(d)
 
     return Response(data)
+
+
+@api_view(['GET'])
+def userSumOfStars(request, username):
+    github = GitHubAPI()
+    repositories = github.getUserRepositories(username)
+    star_counter = 0
+
+    for repository in repositories:
+        star_counter += repository["stargazers_count"]
+    
+    return Response({"sum_of_stars": star_counter})
