@@ -9,8 +9,8 @@ from rest_framework.response import Response
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'List of repositories': '/user-repositories/',
-        'Sum of stars': '/stars-counter/',
-        'The most popular programming languages': '/programming-languages/'
+        'List of repositories': '/<username>/repositories/',
+        'Sum of stars': '/<username>/sum-of-stars/',
+        'The most popular programming languages': '/<username>/programming-languages/'
     }
     return Response(api_urls)
