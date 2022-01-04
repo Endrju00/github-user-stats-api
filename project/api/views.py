@@ -4,12 +4,24 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from typing import AnyStr
+
 from . github import GitHubAPI
 
 
 # Create your views here.
 @api_view(['GET'])
-def apiOverview(request):
+def apiOverview(request) -> Response:
+    """
+    Simple API overview.
+            
+            Parameters:
+                    request: Django request for a page
+            
+            Returns:
+                    Response(data): Django Rest Framework response - API Overview content
+    """
+
     api_urls = {
         'List of repositories': '/<username>/repositories/',
         'Sum of stars': '/<username>/sum-of-stars/',
@@ -19,7 +31,18 @@ def apiOverview(request):
 
 
 @api_view(['GET'])
-def userRepositories(request, username):
+def userRepositories(request, username: AnyStr) -> Response:
+    """
+    Returns response with data (name and number of stars) regarding the repositories of a specific user.
+            
+            Parameters:
+                    request: Django request for a page
+                    username: GitHub username for which the data will obtained
+            
+            Returns:
+                    Response(data): Django Rest Framework response - name and number of stars of user's every public repository
+    """
+
     github = GitHubAPI()
     repositories = github.getUserRepositories(username)
     data = []
@@ -36,7 +59,18 @@ def userRepositories(request, username):
 
 
 @api_view(['GET'])
-def userSumOfStars(request, username):
+def userSumOfStars(request, username: AnyStr) -> Response:
+    """
+    Returns response with data (sum of stars) regarding the specific user.
+            
+            Parameters:
+                    request: Django request for a page
+                    username: GitHub username for which the data will obtained
+            
+            Returns:
+                    Response(data): Django Rest Framework response - user's sum of stars 
+    """
+
     github = GitHubAPI()
     repositories = github.getUserRepositories(username)
     star_counter = 0
@@ -48,7 +82,18 @@ def userSumOfStars(request, username):
 
 
 @api_view(['GET'])
-def userProgrammingLanguages(request, username):
+def userProgrammingLanguages(request, username: AnyStr) -> Response:
+    """
+    Returns response with data (the sum of the sizes of repositories with the same main programming languages) regarding the specific user.
+            
+            Parameters:
+                    request: Django request for a page
+                    username: GitHub username for which the data will obtained
+            
+            Returns:
+                    Response(data): Django Rest Framework response - user's favourite programming languages
+    """
+
     github = GitHubAPI()
     repositories = github.getUserRepositories(username)
     languages = {}
