@@ -25,10 +25,12 @@ def userRepositories(request, username):
     data = []
     
     for repository in repositories:
-        d = {}
-        d["name"] = repository["name"]
-        d["stars"] = repository["stargazers_count"]
-        data.append(d)
+        extracted = {
+            "name": repository["name"],
+            "stars": repository["stargazers_count"]
+        }
+
+        data.append(extracted)
 
     return Response(data)
 
