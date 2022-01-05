@@ -65,6 +65,9 @@ class GitHubAPI():
             "error_code": status_code
         }
 
+        if status_code == 403:
+            error["info"] = "API rate limit exceeded. Please retry your request again later."
+
         if status_code == 404:
             error["info"] = "User not found"
 
