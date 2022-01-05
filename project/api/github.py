@@ -50,7 +50,7 @@ class GitHubAPI():
                 
                 Returns: Dict with information about error and error code
         """
-        
+
         error = {
             "info": "Something went wrong with GitHub API",
             "error_code": status_code
@@ -59,4 +59,4 @@ class GitHubAPI():
         if status_code == 404:
             error["info"] = "User not found"
 
-        return error
+        return [error]

@@ -46,8 +46,8 @@ def userRepositories(request, username: AnyStr) -> Response:
     github = GitHubAPI()
     repositories = github.getUserRepositories(username)
     
-    if repositories.get("error_code"):
-        return Response(repositories)
+    if repositories[0].get("error_code"):
+        return Response(repositories[0])
     else:
         data = []
         
@@ -78,8 +78,8 @@ def userSumOfStars(request, username: AnyStr) -> Response:
     github = GitHubAPI()
     repositories = github.getUserRepositories(username)
 
-    if repositories.get("error_code"):
-        return Response(repositories)
+    if repositories[0].get("error_code"):
+        return Response(repositories[0])
     else: 
         star_counter = 0
 
@@ -105,8 +105,8 @@ def userProgrammingLanguages(request, username: AnyStr) -> Response:
     github = GitHubAPI()
     repositories = github.getUserRepositories(username)
 
-    if repositories.get("error_code"):
-        return Response(repositories)
+    if repositories[0].get("error_code"):
+        return Response(repositories[0])
     else:
         languages = {}
 
