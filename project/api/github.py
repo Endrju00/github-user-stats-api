@@ -19,27 +19,36 @@ class GitHubAPI():
                     data: List of dicts with repository data
         """
 
-        page = 1
-        r = requests.get(f'https://api.github.com/users/{username}/repos?per_page=100&page={page}')    
+        try:
+            page = 1
+            r = requests.get(f'https://api.github.com/users/{username}/repos?per_page=100&page={page}')    
 
-        if r.status_code == 200:
-            data = r.json()
+            if r.status_code == 200:
+                data = r.json()
 
-            while r.json():  # Check if there are more pages
-                page += 1
-                r = requests.get(f'https://api.github.com/users/{username}/repos?per_page=100&page={page}')
-                
-                if r.status_code == 200:
-                    data += r.json()
-                else:
-                    error = self.errorHandler(r.status_code)
-                    return error
+                while r.json():  # Check if there are more pages
+                    page += 1
+                    r = requests.get(f'https://api.github.com/users/{username}/repos?per_page=100&page={page}')
+                    
+                    if r.status_code == 200:
+                        data += r.json()
+                    else:
+                        error = self.errorHandler(r.status_code)
+                        return error
+            
+            else:
+                error = self.errorHandler(r.status_code)
+                return error
         
-        else:
-            error = self.errorHandler(r.status_code)
-            return error
+            return data
         
-        return data
+        except requests.exceptions.Timeout:
+            return self.errorHandler(408)
+        except requests.exceptions.ConnectionError:
+            return self.errorHandler(503)
+        except Exception:
+            return self.errorHandler(500)
+        
 
     def errorHandler(self, status_code: int) -> List[Dict]: 
         """
@@ -58,5 +67,11 @@ class GitHubAPI():
 
         if status_code == 404:
             error["info"] = "User not found"
+
+        elif status_code == 408:
+            error["info"] = "Request Timeout"
+        
+        elif status_code == 503:
+            error["info"] = "Connection Error"
 
         return [error]
