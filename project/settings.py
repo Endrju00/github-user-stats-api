@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+import warnings
 
 from pathlib import Path
 
@@ -123,7 +124,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For deployment
+warnings.filterwarnings("ignore", message="No directory at", module="whitenoise.base" )  # Because of deployment, ignore when the application is launched locally
 
 STATIC_URL = '/static/'
 
