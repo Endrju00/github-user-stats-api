@@ -41,14 +41,14 @@ class GitHubAPI():
         
         return data
 
-    def errorHandler(self, status_code: int) -> Dict: 
+    def errorHandler(self, status_code: int) -> List[Dict]: 
         """
         Returns information about the error resulting from the status code.
 
                 Parameters:
                         status_code: request status code
                 
-                Returns: Dict with information about error and error code
+                Returns: List of dict with information about error and error code
         """
 
         error = {
