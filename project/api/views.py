@@ -50,7 +50,7 @@ def userRepositories(request, username: AnyStr) -> Response:
     if repositories[0].get("error_code"):
         return Response(repositories[0])
     else:
-        data = []
+        data = {"repositories": []}
         
         for repository in repositories:
             extracted = {
@@ -58,7 +58,7 @@ def userRepositories(request, username: AnyStr) -> Response:
                 "stars": repository["stargazers_count"]
             }
 
-            data.append(extracted)
+            data["repositories"].append(extracted)
 
         return Response(data)
 
