@@ -23,7 +23,7 @@ def apiOverview(request) -> Response:
     """
 
     api_urls = {
-        'Format': 'Add /?format=json/ to get json or leave blank for user-friendly version.',
+        'Format': 'Add /?format=json at the end to get json or leave blank for user-friendly version.',
         'List of repositories': '/<username>/repositories/',
         'Sum of stars': '/<username>/sum-of-stars/',
         'The most popular programming languages': '/<username>/programming-languages/'
