@@ -93,7 +93,7 @@ def userSumOfStars(request, username: AnyStr) -> Response:
 @api_view(['GET'])
 def userProgrammingLanguages(request, username: AnyStr) -> Response:
     """
-    Returns response with data (the sum of the sizes of repositories with the same main programming languages) regarding the specific user.
+    Returns response with data (the sum of the sizes of repositories with the same main programming language) regarding the specific user.
             
             Parameters:
                     request: Django request for a page
