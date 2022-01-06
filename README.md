@@ -85,7 +85,7 @@ Vary: Accept
 
 ### HTTP Status codes
  * <code>200</code> - The request succeeded.
- * <code>204</code> - No Content. If there is an 204 or 404 on GitHub API side.
+ * <code>204</code> - No Content. If there is the 204 or 404 error on GitHub API side.
  * <code>207</code> - Multi-Status. If there is an error on GitHub API side different than 404.
  * <code>404</code> - Page not found.
  * <code>500</code> - Server Application error.
