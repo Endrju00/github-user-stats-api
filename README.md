@@ -7,6 +7,7 @@ Project was created during Allegro Spring TECH e-Xperience. Out of the three tas
 
 App is deployed on [Heroku](https://github-user-stats-api.herokuapp.com/api/).
 
+#### Project status
 [![Django CI](https://github.com/Endrju00/github-user-stats-api/actions/workflows/django.yml/badge.svg)](https://github.com/Endrju00/github-user-stats-api/actions/workflows/django.yml)
 
 ## Installation
@@ -105,6 +106,9 @@ The application is equipped with tests that can be found in <code>api/tests.py</
  
  To test the application:
  > (allegro) python manage.py test
+ 
+### Continuous Integration
+CI is configured to run tests after every push or pull request on main branch. The status badge in [Project overview](#project-overview) shows if tests are passed.
 
 ## Project structure
 Structure of a project was created by Django framework.
