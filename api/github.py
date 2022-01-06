@@ -20,6 +20,12 @@ class GitHubAPI():
         """
 
         try:
+            user = requests.get(f'https://api.github.com/users/{username}')
+
+            if user.status_code == 404:
+                error = self.errorHandler(user.status_code)
+                return error
+
             page = 1
             r = requests.get(f'https://api.github.com/users/{username}/repos?per_page=100&page={page}')    
 
@@ -39,13 +45,15 @@ class GitHubAPI():
             else:
                 error = self.errorHandler(r.status_code)
                 return error
-        
+
             return data
         
         except requests.exceptions.Timeout:
             return self.errorHandler(408)
+
         except requests.exceptions.ConnectionError:
             return self.errorHandler(503)
+
         except Exception:
             return self.errorHandler(500)
         
@@ -68,11 +76,11 @@ class GitHubAPI():
         if status_code == 403:
             error["info"] = "API rate limit exceeded. Please retry your request again later."
 
-        if status_code == 404:
+        elif status_code == 404:
             error["info"] = "User not found"
 
         elif status_code == 408:
-            error["info"] = "Request Timeout"
+            error["info"] = "API Request Timeout"
         
         elif status_code == 503:
             error["info"] = "Connection Error"

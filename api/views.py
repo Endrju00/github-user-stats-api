@@ -3,10 +3,28 @@ from django.http import JsonResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
 from typing import AnyStr
 
 from . github import GitHubAPI
+
+
+def getStatusCode(error_code: int):
+    """
+    Returns api status code based on given code from GitHub API.
+
+            Parameters:
+                error_code: Code of an GitHub API error
+
+            Returns: 
+                API status code
+    """
+
+    if error_code == 404:
+        return status.HTTP_204_NO_CONTENT
+    else:
+        return status.HTTP_207_MULTI_STATUS
 
 
 # Create your views here.
@@ -46,21 +64,28 @@ def userRepositories(request, username: AnyStr) -> Response:
 
     github = GitHubAPI()
     repositories = github.getUserRepositories(username)
-    
-    if repositories[0].get("error_code"):
-        return Response(repositories[0])
+
+    if repositories:
+        error_code = repositories[0].get("error_code")
+
+        if error_code:
+            return Response(repositories[0], status=getStatusCode(error_code))
+
+        else:
+            data = {"repositories": []}
+            
+            for repository in repositories:
+                extracted = {
+                    "name": repository["name"],
+                    "stars": repository["stargazers_count"]
+                }
+
+                data["repositories"].append(extracted)
+
+            return Response(data)
+
     else:
-        data = {"repositories": []}
-        
-        for repository in repositories:
-            extracted = {
-                "name": repository["name"],
-                "stars": repository["stargazers_count"]
-            }
-
-            data["repositories"].append(extracted)
-
-        return Response(data)
+        return Response({"repositories": []}, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])
@@ -79,15 +104,22 @@ def userSumOfStars(request, username: AnyStr) -> Response:
     github = GitHubAPI()
     repositories = github.getUserRepositories(username)
 
-    if repositories[0].get("error_code"):
-        return Response(repositories[0])
-    else: 
-        star_counter = 0
+    if repositories:
+        error_code = repositories[0].get("error_code")
 
-        for repository in repositories:
-            star_counter += repository["stargazers_count"]
-        
-        return Response({"sum_of_stars": star_counter})
+        if error_code:
+            return Response(repositories[0], status=getStatusCode(error_code))
+
+        else: 
+            star_counter = 0
+
+            for repository in repositories:
+                star_counter += repository["stargazers_count"]
+            
+            return Response({"sum_of_stars": star_counter})
+
+    else:
+        return Response({"sum_of_stars": 0}, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])
@@ -106,19 +138,26 @@ def userProgrammingLanguages(request, username: AnyStr) -> Response:
     github = GitHubAPI()
     repositories = github.getUserRepositories(username)
 
-    if repositories[0].get("error_code"):
-        return Response(repositories[0])
+    if repositories:
+        error_code = repositories[0].get("error_code")
+
+        if error_code:
+            return Response(repositories[0], status=getStatusCode(error_code))
+
+        else:
+            languages = {}
+
+            for repository in repositories:
+                if not repository["language"]:
+                    continue
+                elif languages.get(repository["language"]):
+                    languages[repository["language"]] += repository["size"]
+                else:
+                    languages[repository["language"]] = repository["size"]
+            
+            languages = dict(sorted(languages.items(), key=lambda k: (k[1], k[0]), reverse=True))  # Sort descending by size
+
+            return Response(languages)
+
     else:
-        languages = {}
-
-        for repository in repositories:
-            if not repository["language"]:
-                continue
-            elif languages.get(repository["language"]):
-                languages[repository["language"]] += repository["size"]
-            else:
-                languages[repository["language"]] = repository["size"]
-        
-        languages = dict(sorted(languages.items(), key=lambda k: (k[1], k[0]), reverse=True))  # Sort descending by size
-
-        return Response(languages)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
