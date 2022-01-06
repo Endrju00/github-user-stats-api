@@ -46,6 +46,10 @@ class GitHubAPI():
                 error = self.errorHandler(r.status_code)
                 return error
 
+            if not data:
+                error = self.errorHandler(204)
+                return error
+
             return data
         
         except requests.exceptions.Timeout:
@@ -72,6 +76,9 @@ class GitHubAPI():
             "info": "Something went wrong with GitHub API",
             "error_code": status_code
         }
+
+        if status_code == 204:
+            error["info"] = "User has not public repositories."
 
         if status_code == 403:
             error["info"] = "API rate limit exceeded. Please retry your request again later."
