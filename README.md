@@ -31,9 +31,10 @@ App is deployed on [Heroku](https://github-user-stats-api.herokuapp.com/api/).
 
 ## Example of use
 The <code>api</code> supports a few queries:
-- <code>\<username\>/repositories/</code> - listing of repositories (name and number of stars),
-- <code>\<username\>/sum-of-stars/</code> - returning the sum of stars in all repositories,
-- <code>\<username\>/programming-languages/</code> - listing the most popular programming languages (name, number of code bytes).
+- <code>/api/</code> - API overview,
+- <code>/api/\<username\>/repositories/</code> - listing of repositories (name and number of stars),
+- <code>/api/\<username\>/sum-of-stars/</code> - returning the sum of stars in all repositories,
+- <code>/api/\<username\>/programming-languages/</code> - listing the most popular programming languages (name, number of code bytes).
  
  
 ### Example:
@@ -85,8 +86,8 @@ Vary: Accept
 
 ### HTTP Status codes
  * <code>200</code> - The request succeeded.
- * <code>204</code> - No Content. If there is the 204 or 404 error on GitHub API side.
- * <code>207</code> - Multi-Status. If there is an error on GitHub API side different than 404.
+ * <code>204</code> - No Content. If a 204 or 404 error on GitHub API side occurs.
+ * <code>207</code> - Multi-Status. If there is an error on GitHub API side different than 204 or 404.
  * <code>404</code> - Page not found.
  * <code>500</code> - Server Application error.
  
@@ -131,5 +132,9 @@ Structure of a project was created by Django framework.
  * <code>manage.py</code> - tool for executing Django-specific tasks.
  * <code>requirements.txt</code> - libraries and packages that must be installed for the application to work properly.
  
-
+## Improvement suggestions
+* Creating a frontend app to use the API
+* Showing number/list of followers or number/list of following
+* Listing open issues of a repository or count them
+* Listing collaborators of a repository
  
