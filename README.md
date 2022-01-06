@@ -6,6 +6,9 @@ Project was created during Allegro Spring TECH e-Xperience. Out of the three tas
 * listing the most popular programming languages (name, number of code bytes). 
 
 App is deployed on [Heroku](https://github-user-stats-api.herokuapp.com/api/).
+
+[![Django CI](https://github.com/Endrju00/github-user-stats-api/actions/workflows/django.yml/badge.svg)](https://github.com/Endrju00/github-user-stats-api/actions/workflows/django.yml)
+
 ## Installation
 
 ### On Windows
